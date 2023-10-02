@@ -1,55 +1,45 @@
 import 'package:flutter/material.dart';
+import 'package:simple_shop_app_flutter/cart_page.dart';
 
-class ShoopingAppMainPage extends StatelessWidget {
+import 'home_page.dart';
+
+class ShoopingAppMainPage extends StatefulWidget {
   const ShoopingAppMainPage({super.key});
 
   @override
+  State<ShoopingAppMainPage> createState() => _ShoopingAppMainPageState();
+}
+
+class _ShoopingAppMainPageState extends State<ShoopingAppMainPage> {
+  int currentPage = 0;
+  List<Widget> pageIndex = const [HomePage(), CartPage()];
+  @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: SingleChildScrollView(
-        child: SafeArea(
-          child: Column(
-            children: [
-              Row(
-                children: [
-                  Padding(
-                    padding: EdgeInsets.all(20),
-                    child: Text(
-                      'Shopping \nApp',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    child: TextField(
-                      textAlign: TextAlign.center,
-                      decoration: InputDecoration(
-                        hintText: 'Search',
-                        prefixIcon: Icon(
-                          Icons.search,
-                          color: Colors.grey,
-                        ),
-                      ),
-                    ),
-                  )
-                ],
-              ),
-              Placeholder(
-                color: Colors.green,
-                fallbackHeight: 344,
-              ),
-              Placeholder(
-                color: Colors.green,
-                fallbackHeight: 344,
-              ),
-              Placeholder(
-                color: Colors.green,
-                fallbackHeight: 344,
-              )
-            ],
+    return Scaffold(
+      body: IndexedStack(
+        index: currentPage,
+        children: pageIndex,
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        selectedFontSize: 20,
+        unselectedFontSize: 0,
+        currentIndex: currentPage,
+        iconSize: 35,
+        onTap: (value) {
+          setState(() {
+            currentPage = value;
+          });
+        },
+        items: const [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Home',
           ),
-        ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.shopping_cart),
+            label: 'Cart',
+          ),
+        ],
       ),
     );
   }
